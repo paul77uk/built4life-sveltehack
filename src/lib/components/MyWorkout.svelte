@@ -93,18 +93,21 @@
 
 			<input type="hidden" name={'id'} value={id} />
 
-			<Button type={'submit'} class="w-full" disabled={creating}
-				>{#if creating}
-					<Icon
-						class="size-4 animate-spin"
-						icon="icomoon-free:spinner9"
-						color={'red'}
-						height={20}
-					/>
-				{:else}
-					Save Result
-				{/if}</Button
-			>
+		
+			{#if pr !== null}
+				<Button type={'submit'} class="w-full" disabled={creating}
+					>{#if creating}
+						<Icon
+							class="size-4 animate-spin"
+							icon="icomoon-free:spinner9"
+							color={'red'}
+							height={20}
+						/>
+					{:else}
+						Save Result
+					{/if}</Button
+				>
+			{/if}
 		</form>
 	</Card.Footer>
 </Card.Root>
