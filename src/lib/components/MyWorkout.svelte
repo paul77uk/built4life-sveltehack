@@ -5,6 +5,8 @@
 
 	import { Button } from './ui/button';
 	import { Input } from './ui/input';
+	import { enhance } from '$app/forms';
+	import { toast } from 'svelte-sonner';
 
 	type Workout = {
 		id?: string;
@@ -19,6 +21,8 @@
 	let { id, title, description, exercises, pr, minutes, seconds }: Workout = $props();
 
 	let prAttempt = $state(0);
+	let prState = $state(pr);
+	let creating = $state(false);
 </script>
 
 <Card.Root class="m-3 flex w-[300px] flex-col px-5">
@@ -37,7 +41,7 @@
 				<div
 					class="m-3 mx-auto w-fit rounded border border-dashed px-3 py-1 text-center text-gray-500"
 				>
-					PR: {pr}
+					PR: {prState}
 				</div>
 				<div class="flex justify-center gap-1">
 					<Button
@@ -64,11 +68,43 @@
 	<!-- could use flex-1 or grow -->
 	<!-- TODO: change form to superforms and can add toasts to say was saved to history and well done for new pr-->
 	<Card.Footer class="grow">
-		<form method="POST" class="w-full" action="?/updatePR">
+		<form
+			method="POST"
+			class="w-full"
+			action="?/updatePR"
+			use:enhance={() => {
+				creating = true;
+
+				return async ({ result, update }) => {
+					await update();
+
+					creating = false;
+
+					if (result.type === 'failure') toast.error('No PR this time');
+					else {
+						toast.success('Well done! New PR');
+						prState = prAttempt;
+						prAttempt = 0;
+					}
+				};
+			}}
+		>
 			<Input type="hidden" class="w-12 text-center" name={'prAttempt'} bind:value={prAttempt} />
 
 			<input type="hidden" name={'id'} value={id} />
-			<Button type={'submit'} class="w-full">Save Result</Button>
+
+			<Button type={'submit'} class="w-full" disabled={creating}
+				>{#if creating}
+					<Icon
+						class="size-4 animate-spin"
+						icon="icomoon-free:spinner9"
+						color={'red'}
+						height={20}
+					/>
+				{:else}
+					Save Result
+				{/if}</Button
+			>
 		</form>
 	</Card.Footer>
 </Card.Root>

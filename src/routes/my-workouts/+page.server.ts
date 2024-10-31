@@ -42,6 +42,25 @@ export const actions = {
 	updatePR: async ({ request }) => {
 		const data = await request.formData();
 
+		// check if prAttempt greater than current PR
+		const currentPr = await db.query.workout.findFirst({
+			where: eq(workout.id, data.get('id') as string)
+		});
+
+		if (!currentPr) {
+			return fail(400, {
+				error: 'Workout not found'
+			});
+		}
+
+		if (currentPr.pr !== null) {
+			if (parseInt(data.get('prAttempt') as string) <= currentPr.pr) {
+				return fail(400, {
+					error: 'Nice try, but failed to beat PR this time'
+				});
+			}
+		}
+
 		try {
 			await db
 				.update(workout)
