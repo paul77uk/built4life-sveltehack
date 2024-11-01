@@ -13,7 +13,8 @@
 		title: string;
 		description?: string;
 		exercises?: string[];
-		pr?: number;
+		repsPr?: number;
+		timePr?: string;
 		minutes?: number;
 		seconds?: number;
 	};

@@ -7,21 +7,25 @@
 	import { Input } from './ui/input';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svelte-sonner';
+	import { time } from 'drizzle-orm/mysql-core';
 
 	type Workout = {
 		id?: string;
 		title: string;
 		description?: string;
 		exercises?: string[];
-		pr?: number;
+		repsPr?: number;
+		timePr?: string;
 		minutes?: number;
 		seconds?: number;
 	};
 
-	let { id, title, description, exercises, pr, minutes, seconds }: Workout = $props();
+	let { id, title, description, exercises, repsPr, timePr, minutes, seconds }: Workout = $props();
 
 	let prAttempt = $state(0);
-	let prState = $state(pr);
+	let timePrAttempt = $state('00:00');
+	let prState = $state(repsPr);
+	let timePrState = $state(timePr);
 	let creating = $state(false);
 </script>
 
@@ -36,12 +40,15 @@
 				<p>{exercise}</p>
 			{/each}
 		{/if}
-		{#if pr !== null}
+		{#if repsPr !== null}
 			<div class="flex flex-1 flex-col justify-center">
-				<div
-					class="m-3 mx-auto w-fit rounded border border-dashed px-3 py-1 text-center text-gray-500"
-				>
-					PR: {prState}
+				<div class="flex items-center mx-auto gap-2">
+					PR:
+					<div
+						class="m-3 mx-auto w-fit rounded border border-dashed px-3 py-1 text-center text-gray-500"
+					>
+						{prState}
+					</div>
 				</div>
 				<div class="flex justify-center gap-1">
 					<Button
@@ -64,6 +71,24 @@
 				</div>
 			</div>
 		{/if}
+
+		{#if timePr !== null}
+			<div class="flex flex-1 flex-col justify-center">
+				<div class="flex items-center mx-auto gap-2">
+					PR:
+					<div
+						class="m-3 mx-auto w-fit rounded border border-dashed px-3 py-1 text-center text-gray-500"
+					>
+						{timePrState}
+					</div>
+				</div>
+				<div class="flex justify-center gap-1">
+					<form>
+						<Input type="time" class="w-18 text-center" bind:value={timePrAttempt} />
+					</form>
+				</div>
+			</div>
+		{/if}
 	</Card.Content>
 	<!-- could use flex-1 or grow -->
 	<!-- TODO: change form to superforms and can add toasts to say was saved to history and well done for new pr-->
@@ -82,19 +107,32 @@
 
 					if (result.type === 'failure') toast.error('No PR this time');
 					else {
-						toast.success('Well done! New PR');
-						prState = prAttempt;
-						prAttempt = 0;
+						if (repsPr !== null) {
+							toast.success('Well done! New PR');
+							prState = prAttempt;
+						}
+						if (timePr !== null) {
+							toast.success('Well done! New PR');
+							timePrState = timePrAttempt;
+						}
 					}
+					prAttempt = 0;
+					timePrAttempt = '00:00';
 				};
 			}}
 		>
 			<Input type="hidden" class="w-12 text-center" name={'prAttempt'} bind:value={prAttempt} />
 
+			<Input
+				type="hidden"
+				class="w-12 text-center"
+				name={'timePrAttempt'}
+				bind:value={timePrAttempt}
+			/>
+
 			<input type="hidden" name={'id'} value={id} />
 
-		
-			{#if pr !== null}
+			{#if repsPr !== null || timePr !== null}
 				<Button type={'submit'} class="w-full" disabled={creating}
 					>{#if creating}
 						<Icon

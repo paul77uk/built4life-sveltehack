@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 
 import { kindeAuthClient, type SessionManager } from '@kinde-oss/kinde-auth-sveltekit';
 
-import { and, asc, eq, lt } from 'drizzle-orm';
+import { and, asc, eq, gt, lt, or } from 'drizzle-orm';
 import { fail, message, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 
@@ -42,39 +42,77 @@ export const actions = {
 	updatePR: async ({ request }) => {
 		const data = await request.formData();
 
+		// console.log(data.get('timePrAttempt'));
+
 		// check if prAttempt greater than current PR
-		const currentPr = await db.query.workout.findFirst({
+		const currentWorkout = await db.query.workout.findFirst({
 			where: eq(workout.id, data.get('id') as string)
 		});
 
-		if (!currentPr) {
+		if (!currentWorkout) {
 			return fail(400, {
 				error: 'Workout not found'
 			});
 		}
 
-		if (currentPr.pr !== null) {
-			if (parseInt(data.get('prAttempt') as string) <= currentPr.pr) {
+		if (currentWorkout.repsPr !== null) {
+			if (parseInt(data.get('prAttempt') as string) <= currentWorkout.repsPr) {
 				return fail(400, {
 					error: 'Nice try, but failed to beat PR this time'
 				});
 			}
+
+			try {
+				await db
+					.update(workout)
+					.set({
+						repsPr: parseInt(data.get('prAttempt') as string) || 0
+					})
+					.where(
+						and(
+							eq(workout.id, data.get('id') as string),
+							lt(workout.repsPr, parseInt(data.get('prAttempt') as string) || 0)
+						)
+					);
+			} catch (error) {
+				return { error: `${error}Failed to update PR` };
+			}
 		}
 
-		try {
-			await db
-				.update(workout)
-				.set({
-					pr: parseInt(data.get('prAttempt') as string) || 0
-				})
-				.where(
-					and(
-						eq(workout.id, data.get('id') as string),
-						lt(workout.pr, parseInt(data.get('prAttempt') as string) || 0)
-					)
-				);
-		} catch (error) {
-			return { error: `${error}Failed to update PR` };
+		if (currentWorkout.timePr !== null) {
+			if (
+				(data.get('timePrAttempt') as string) >= currentWorkout.timePr &&
+				currentWorkout.timePr !== '00:00'
+			) {
+				return fail(400, {
+					error: 'Nice try, but failed to beat PR this time'
+				});
+			}
+
+			if (data.get('timePrAttempt') === '00:00') {
+				return fail(400, {
+					error: 'Time must be greater than 00:00'
+				});
+			}
+
+			try {
+				await db
+					.update(workout)
+					.set({
+						timePr: data.get('timePrAttempt') as string
+					})
+					.where(
+						and(
+							eq(workout.id, data.get('id') as string),
+							or(
+								eq(workout.timePr, '00:00'),
+								gt(workout.timePr, data.get('timePrAttempt') as string)
+							)
+						)
+					);
+			} catch (error) {
+				return { error: `${error}Failed to update PR` };
+			}
 		}
 	},
 

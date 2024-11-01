@@ -5,7 +5,8 @@ export const workout = pgTable('workout', {
 	title: text('title').notNull(),
 	description: text('description'),
 	exercises: text('exercises').array(),
-	pr: integer('pr'),
+	repsPr: integer('pr'),
+	timePr: text('time_pr'),
 	minutes: integer('minutes'),
 	seconds: integer('seconds'),
 	createdAt: timestamp('created_at', {
