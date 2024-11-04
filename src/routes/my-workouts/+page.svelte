@@ -7,6 +7,7 @@
 
 	import { toast } from 'svelte-sonner';
 	import MyWorkout from '$lib/components/MyWorkout.svelte';
+	import CreateWorkout from '$lib/components/CreateWorkout.svelte';
 
 	type Workout = {
 		id?: string;
@@ -34,9 +35,9 @@
 
 <div class=" flex items-center justify-center gap-3">
 	<SearchForm {workouts} />
-	<!-- {#if data.form}
+	{#if data.form}
 		<CreateWorkout data={data.form} />
-	{/if} -->
+	{/if}
 </div>
 
 {#if workoutsState.filteredWorkouts.length < 1}

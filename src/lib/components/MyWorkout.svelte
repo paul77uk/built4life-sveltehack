@@ -8,19 +8,12 @@
 	import { enhance } from '$app/forms';
 	import { toast } from 'svelte-sonner';
 	import { time } from 'drizzle-orm/mysql-core';
+	import MyWorkoutInfo from './MyWorkoutInfo.svelte';
+	import type { Workout } from '$lib/workoutData';
+	import DeleteWorkout from './DeleteWorkout.svelte';
 
-	type Workout = {
-		id?: string;
-		title: string;
-		description?: string;
-		exercises?: string[];
-		repsPr?: number;
-		timePr?: string;
-		minutes?: number;
-		seconds?: number;
-	};
-
-	let { id, title, description, exercises, repsPr, timePr, minutes, seconds }: Workout = $props();
+	let workout: Workout = $props();
+	let { id, title, description, exercises, repsPr, timePr, minutes, seconds } = workout;
 
 	let prAttempt = $state(0);
 	let timePrAttempt = $state('00:00');
@@ -31,7 +24,19 @@
 
 <Card.Root class="m-3 flex w-[300px] flex-col px-5">
 	<Card.Header>
-		<Card.Title class="mx-auto text-center">{title}</Card.Title>
+		<Card.Title class="mx-auto text-center flex gap-2 items-center">
+			<!-- <Icon icon="material-symbols-light:add-notes-outline-rounded" height={26} />
+			<Icon icon="arcticons:firefoxnotes" height={22} /> 
+			<!-- -->
+			<Icon icon="pixelarticons:notes-multiple" height={18} />
+			{title}
+			<!-- <Icon icon="lets-icons:info-alt-duotone" height="30" />
+			<Icon icon="lets-icons:info-alt-duotone" height="30" /> -->
+			<div class="flex items-center">
+				<MyWorkoutInfo {workout} />
+				<DeleteWorkout {id}/>
+			</div>
+		</Card.Title>
 		<Card.Description class="mx-auto text-center">{description}</Card.Description>
 	</Card.Header>
 	<Card.Content class="mx-auto flex h-full flex-col">
@@ -146,6 +151,8 @@
 					{/if}</Button
 				>
 			{/if}
+
+			<Button variant={'outline'} class="w-full mt-3">Add Note</Button>
 		</form>
 	</Card.Footer>
 </Card.Root>
