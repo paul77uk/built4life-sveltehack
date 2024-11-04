@@ -11,6 +11,7 @@
 	import MyWorkoutInfo from './MyWorkoutInfo.svelte';
 	import type { Workout } from '$lib/workoutData';
 	import DeleteWorkout from './DeleteWorkout.svelte';
+	import IconBorder from './IconBorder.svelte';
 
 	let workout: Workout = $props();
 	let { id, title, description, exercises, repsPr, timePr, minutes, seconds } = workout;
@@ -25,17 +26,14 @@
 <Card.Root class="m-3 flex w-[300px] flex-col px-5">
 	<Card.Header>
 		<Card.Title class="mx-auto text-center flex gap-2 items-center">
-			<!-- <Icon icon="material-symbols-light:add-notes-outline-rounded" height={26} />
+			<!-- 
 			<Icon icon="arcticons:firefoxnotes" height={22} /> 
 			<!-- -->
-			<Icon icon="pixelarticons:notes-multiple" height={18} />
+
 			{title}
-			<!-- <Icon icon="lets-icons:info-alt-duotone" height="30" />
-			<Icon icon="lets-icons:info-alt-duotone" height="30" /> -->
-			<div class="flex items-center">
-				<MyWorkoutInfo {workout} />
-				<DeleteWorkout {id}/>
-			</div>
+			<!-- <Icon icon="lets-icons:info-alt-duotone" height="40" /> -->
+			<!-- <Icon icon="circum:circle-info" height={35}/> -->
+			<!-- <Icon icon="lets-icons:info-alt-light" height={40} /> -->
 		</Card.Title>
 		<Card.Description class="mx-auto text-center">{description}</Card.Description>
 	</Card.Header>
@@ -152,7 +150,27 @@
 				>
 			{/if}
 
-			<Button variant={'outline'} class="w-full mt-3">Add Note</Button>
+			<!-- <Button variant={'outline'} class="w-full mt-3">Add Note</Button> -->
+			<div class="flex items-center justify-center mt-4 gap-2">
+				<IconBorder
+					icon="material-symbols-light:add-notes-outline-rounded"
+					height={24}
+					toolTip="Add Note"
+				/>
+				<IconBorder
+					icon="pixelarticons:notes-multiple"
+					height={18}
+					toolTip="View notes"
+					className="py-2 px-1.5"
+				/>
+
+				<IconBorder icon="clarity:help-info-line" height={22} toolTip="Info" className="py-1.5" />
+
+				<IconBorder icon="mdi-light:share" height={26} toolTip="Share workout" />
+
+				<MyWorkoutInfo {workout} />
+				<DeleteWorkout {id} />
+			</div>
 		</form>
 	</Card.Footer>
 </Card.Root>

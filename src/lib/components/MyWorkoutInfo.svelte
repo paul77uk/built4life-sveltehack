@@ -5,6 +5,7 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import type { Workout } from '$lib/workoutData';
 	import Icon from '@iconify/svelte';
+	import IconBorder from './IconBorder.svelte';
 
 	type Props = {
 		workout: Workout;
@@ -15,7 +16,9 @@
 </script>
 
 <Dialog.Root>
-	<Dialog.Trigger><Icon icon="la:edit" height={24} /></Dialog.Trigger>
+	<Dialog.Trigger>
+		<IconBorder icon="la:edit" height={24} toolTip="Edit workout" />
+	</Dialog.Trigger>
 	<Dialog.Content class="sm:max-w-[425px]">
 		<Dialog.Header>
 			<Dialog.Title>{title}</Dialog.Title>
@@ -34,7 +37,7 @@
 			</div>
 		</div>
 		<Dialog.Footer>
-			<Button type="submit">Save changes</Button>
+			<div><Button type="submit">Save changes</Button></div>
 		</Dialog.Footer>
 	</Dialog.Content>
 </Dialog.Root>

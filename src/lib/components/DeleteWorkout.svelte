@@ -2,13 +2,14 @@
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 
 	import Icon from '@iconify/svelte';
+	import IconBorder from './IconBorder.svelte';
 
 	let { id } = $props();
 </script>
 
 <AlertDialog.Root>
 	<AlertDialog.Trigger>
-		<Icon icon="ic:outline-delete" height={22} />
+		<IconBorder icon="ic:outline-delete" height={22} toolTip="Delete workout" />
 	</AlertDialog.Trigger>
 	<AlertDialog.Content>
 		<AlertDialog.Header>
