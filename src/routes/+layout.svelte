@@ -1,8 +1,6 @@
 <script lang="ts">
 	import NavBar from '$lib/components/NavBar.svelte';
 	import '../app.css';
-	import { goto, invalidate } from '$app/navigation';
-	import { setUserState } from '$lib/state/user-state.svelte';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import SubNav from '$lib/components/SubNav.svelte';
 

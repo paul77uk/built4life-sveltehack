@@ -6,7 +6,6 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { registerSchema } from './registerSchema';
 import { redirect } from '@sveltejs/kit';
 
-
 export const load = async () => {
 	const form = await superValidate(zod(registerSchema));
 	return form;
@@ -21,7 +20,11 @@ export const actions = {
 			return fail(400, { form });
 		}
 
-		const { firstName, lastName, email, password, passwordConfirm } = form.data;
+		const { 
+			// firstName, lastName, 
+			email, password, 
+			// passwordConfirm 
+		} = form.data;
 
 		// const firstName = formData.get('firstName') as string;
 		// const lastName = formData.get('lastName') as string;

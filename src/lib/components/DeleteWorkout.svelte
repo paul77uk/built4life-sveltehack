@@ -1,8 +1,9 @@
 <script lang="ts">
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
+	import { toast } from 'svelte-sonner';
 
-	import Icon from '@iconify/svelte';
 	import IconBorder from './IconBorder.svelte';
+	import { page } from '$app/stores';
 
 	let { id } = $props();
 </script>

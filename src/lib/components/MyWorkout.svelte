@@ -7,13 +7,18 @@
 	import { Input } from './ui/input';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svelte-sonner';
-	import { time } from 'drizzle-orm/mysql-core';
-	import MyWorkoutInfo from './MyWorkoutInfo.svelte';
 	import type { Workout } from '$lib/workoutData';
 	import DeleteWorkout from './DeleteWorkout.svelte';
 	import IconBorder from './IconBorder.svelte';
+	import EditWorkout from './EditWorkout.svelte';
+	import type { ActionData } from '../../routes/my-workouts/$types';
 
-	let workout: Workout = $props();
+	type Props = {
+		workout: Workout;
+		form: ActionData;
+	};
+
+	let { workout, form }: Props = $props();
 	let { id, title, description, exercises, repsPr, timePr, minutes, seconds } = workout;
 
 	let prAttempt = $state(0);
@@ -75,7 +80,7 @@
 			</div>
 		{/if}
 
-		{#if timePr !== null}
+		{#if timePr !== null && timePr !== ''}
 			<div class="flex flex-1 flex-col justify-center">
 				<div class="flex items-center mx-auto gap-2">
 					PR:
@@ -168,7 +173,7 @@
 
 				<IconBorder icon="mdi-light:share" height={26} toolTip="Share workout" />
 
-				<MyWorkoutInfo {workout} />
+				<EditWorkout {workout} {form} />
 				<DeleteWorkout {id} />
 			</div>
 		</form>

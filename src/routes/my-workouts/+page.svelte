@@ -20,7 +20,7 @@
 		seconds?: number;
 	};
 
-	let { data } = $props();
+	let { data, form } = $props();
 
 	let workouts = data.workouts as Workout[];
 	workoutsState.filteredWorkouts = data.workouts as Workout[];
@@ -46,7 +46,7 @@
 	<div class="m-3 flex flex-wrap justify-center">
 		{#each workoutsState.filteredWorkouts as workout}
 			<!-- <MyWorkout {...workout} /> -->
-			<MyWorkout {...workout} />
+			<MyWorkout {workout} {form} />
 		{/each}
 	</div>
 {/if}

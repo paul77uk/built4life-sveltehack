@@ -10,8 +10,6 @@
 	import * as AlertDialog from './ui/alert-dialog';
 	import { Textarea } from './ui/textarea';
 	import { toast } from 'svelte-sonner';
-	import { is } from 'drizzle-orm';
-	import { invalidateAll } from '$app/navigation';
 
 	const { data } = $props<{ data: SuperValidated<Infer<FormSchema>> }>();
 
@@ -48,7 +46,7 @@
 			<AlertDialog.Header>
 				<AlertDialog.Title>Create Workout</AlertDialog.Title>
 				<AlertDialog.Description>
-					<form method="POST" use:enhance action="?/createWorkout">
+					<form method="POST" action="?/createWorkout">
 						<Form.Field {form} name="title">
 							<Form.Control>
 								{#snippet children({ props })}
@@ -123,7 +121,7 @@
 							<Form.FieldErrors />
 						</Form.Field>
 
-						<Form.Button class="w-full">Submit</Form.Button>
+						<Form.Button type="submit" class="w-full">Submit</Form.Button>
 					</form>
 				</AlertDialog.Description>
 			</AlertDialog.Header>
