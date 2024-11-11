@@ -11,7 +11,7 @@ import type { WorkoutInsert } from '$lib/types';
 import { workouts } from '$lib/workoutData';
 
 import { formSchema } from './schema';
-import { workout } from '$lib/server/db/schema';
+import { notes, workout } from '$lib/server/db/schema';
 import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ request }) => {
@@ -26,7 +26,12 @@ export const load = async ({ request }) => {
 
 		const workouts = await db.query.workout.findMany({
 			where: eq(workout.userId, user.id),
-			orderBy: [asc(workout.createdAt)]
+			orderBy: [asc(workout.createdAt)],
+			with: {
+				notes: {
+					orderBy: [asc(notes.createdAt)]
+				}
+			}
 		});
 
 		// const filteredWorkouts = query
@@ -266,7 +271,7 @@ export const actions = {
 				// 	error: `${title} already exists`
 				// });
 				console.log('workout already exists');
-				redirect(302, "/my-workouts?error=true");
+				redirect(302, '/my-workouts?error=true');
 
 				// throw new Error(`${title} already exists`);
 			}
@@ -307,5 +312,70 @@ export const actions = {
 			console.log('workout updated successfully');
 			redirect(302, '/my-workouts');
 		}
+	},
+
+	createNote: async ({ request }) => {
+		const form = await request.formData();
+
+		const text = form.get('text') as string;
+		const workoutId = form.get('id') as string;
+
+		try {
+			await db.insert(notes).values({
+				text,
+				workoutId
+			});
+		} catch (error) {
+			console.log(`${error} Failed to create note`);
+		}
+
+		return redirect(302, '/my-workouts');
+	},
+
+	deleteNote: async ({ request }) => {
+		const data = await request.formData();
+
+		const currentNote = await db.query.notes.findFirst({
+			where: eq(notes.id, data.get('id') as string)
+		});
+
+		if (!currentNote) {
+			return fail(400, {
+				error: 'Note not found'
+			});
+		}
+
+		const currentWorkout = await db.query.workout.findFirst({
+			where: eq(workout.id, currentNote.workoutId)
+		});
+
+		if (!currentWorkout) {
+			return fail(400, {
+				error: 'Workout not found'
+			});
+		}
+
+		try {
+			await db.delete(notes).where(eq(notes.id, data.get('id') as string));
+		} catch (error) {
+			return { error: `${error} Failed to delete note` };
+		}
+
+		redirect(302, '/my-workouts');
+	},
+
+	editNote: async ({ request }) => {
+		const form = await request.formData();
+
+		const text = form.get('text') as string;
+		const id = form.get('id') as string;
+
+		try {
+			await db.update(notes).set({ text }).where(eq(notes.id, id));
+		} catch (error) {
+			return { error: `${error} Failed to update note` };
+		}
+
+		redirect(302, '/my-workouts');
 	}
 };

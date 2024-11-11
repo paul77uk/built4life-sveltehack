@@ -2,7 +2,7 @@
 	import { workoutsState } from '$lib/state/workoutsState.svelte';
 	import Icon from '@iconify/svelte';
 	import { Input } from './ui/input';
-	import { workouts, type Workout } from '$lib/workoutData';
+	import { type Workout } from '$lib/workoutData';
 
 	// let initialQuery = $page.url.searchParams.get('query') || ''
 
@@ -12,6 +12,7 @@
 
 	let query = $state('');
 	let { workouts: propWorkouts }: Props = $props();
+	// $inspect(workoutsState.filteredWorkouts);
 </script>
 
 <search>

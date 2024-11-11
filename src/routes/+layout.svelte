@@ -1,5 +1,5 @@
 <script lang="ts">
-	import NavBar from '$lib/components/NavBar.svelte';
+	import NavBar from '../lib/components/NavBar.svelte';
 	import '../app.css';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import SubNav from '$lib/components/SubNav.svelte';

@@ -1,3 +1,4 @@
+import type { Notes } from './types';
 export type Workout = {
 	id?: string;
 	title: string;
@@ -7,6 +8,7 @@ export type Workout = {
 	timePr?: string;
 	minutes?: number;
 	seconds?: number;
+	notes?: Notes[];
 };
 
 export const workouts: Workout[] = [
@@ -87,14 +89,14 @@ export const workouts: Workout[] = [
 	},
 	// index 10
 	{
-		title: 'AMRAP Clean & repsPress',
+		title: 'AMRAP Clean & Press',
 		description: 'AMRAP in 1 set',
 		exercises: ['Clean & repsPress (100lb/ 45kg)'],
 		repsPr: 11
 	},
 	// index 11
 	{
-		title: 'EMOM Clean & repsPress',
+		title: 'EMOM Clean & Press',
 		description: 'EMOM for 10 minutes',
 		exercises: ['5 Clean & repsPress (100lb/ 45kg)'],
 		minutes: 10,
@@ -140,7 +142,7 @@ export const workouts: Workout[] = [
 	},
 	// index 17
 	{
-		title: 'AMRAP Clean & repsPress 2',
+		title: 'AMRAP Clean & Press 2',
 		description: 'AMRAP in 1 set',
 		exercises: ['Clean & repsPress (135lb/ 60kg)'],
 		repsPr: 1
@@ -236,7 +238,7 @@ export const workouts: Workout[] = [
 	},
 	// index 29
 	{
-		title: 'AMRAP Overhead repsPress',
+		title: 'AMRAP Overhead Press',
 		description: 'AMRAP in 1 set',
 		exercises: ['Overhead repsPress (135lb/ 60kg)'],
 		repsPr: 4
@@ -390,14 +392,14 @@ export const workouts: Workout[] = [
 	},
 	// index 48
 	{
-		title: 'AMRAP Clean & repsPress 3',
+		title: 'AMRAP Clean & Press 3',
 		description: 'AMRAP in 1 set',
 		exercises: ['Overhead repsPress (50lb/ 25kg)'],
 		repsPr: 0
 	},
 	// index 49
 	{
-		title: 'AMRAP Clean & repsPress in 5 minutes 2',
+		title: 'AMRAP Clean & Press in 5 minutes 2',
 		description: 'AMRAP in 5 minutes',
 		exercises: ['Overhead repsPress (50lb/ 25kg)'],
 		repsPr: 0,
@@ -406,7 +408,7 @@ export const workouts: Workout[] = [
 	},
 	// index 50
 	{
-		title: 'AMRAP Right Arm Clean & repsPress',
+		title: 'AMRAP Right Arm Clean & Press',
 		description: 'AMRAP in 1 set',
 		exercises: ['Curls (65lb/ 30kg)'],
 		repsPr: 0

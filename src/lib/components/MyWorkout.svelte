@@ -12,20 +12,23 @@
 	import IconBorder from './IconBorder.svelte';
 	import EditWorkout from './EditWorkout.svelte';
 	import type { ActionData } from '../../routes/my-workouts/$types';
+	import CreateNotes from './CreateNote.svelte';
+	import Notes from './Notes.svelte';
+	import type { Notes as NotesData } from '$lib/types';
 
 	type Props = {
 		workout: Workout;
-		form: ActionData;
 	};
 
-	let { workout, form }: Props = $props();
-	let { id, title, description, exercises, repsPr, timePr, minutes, seconds } = workout;
+	let { workout }: Props = $props();
 
 	let prAttempt = $state(0);
 	let timePrAttempt = $state('00:00');
-	let prState = $state(repsPr);
-	let timePrState = $state(timePr);
+	let prState = $state(workout.repsPr);
+	let timePrState = $state(workout.timePr);
 	let creating = $state(false);
+
+	$inspect('workout', workout);
 </script>
 
 <Card.Root class="m-3 flex w-[300px] flex-col px-5">
@@ -35,20 +38,20 @@
 			<Icon icon="arcticons:firefoxnotes" height={22} /> 
 			<!-- -->
 
-			{title}
+			{workout.title}
 			<!-- <Icon icon="lets-icons:info-alt-duotone" height="40" /> -->
 			<!-- <Icon icon="circum:circle-info" height={35}/> -->
 			<!-- <Icon icon="lets-icons:info-alt-light" height={40} /> -->
 		</Card.Title>
-		<Card.Description class="mx-auto text-center">{description}</Card.Description>
+		<Card.Description class="mx-auto text-center">{workout.description}</Card.Description>
 	</Card.Header>
 	<Card.Content class="mx-auto flex h-full flex-col">
-		{#if exercises}
-			{#each exercises as exercise}
+		{#if workout.exercises}
+			{#each workout.exercises as exercise}
 				<p>{exercise}</p>
 			{/each}
 		{/if}
-		{#if repsPr !== null}
+		{#if workout.repsPr !== null}
 			<div class="flex flex-1 flex-col justify-center">
 				<div class="flex items-center mx-auto gap-2">
 					PR:
@@ -80,7 +83,7 @@
 			</div>
 		{/if}
 
-		{#if timePr !== null && timePr !== ''}
+		{#if workout.timePr !== null && workout.timePr !== ''}
 			<div class="flex flex-1 flex-col justify-center">
 				<div class="flex items-center mx-auto gap-2">
 					PR:
@@ -115,11 +118,11 @@
 
 					if (result.type === 'failure') toast.error('No PR this time');
 					else {
-						if (repsPr !== null) {
+						if (workout.repsPr !== null) {
 							toast.success('Well done! New PR');
 							prState = prAttempt;
 						}
-						if (timePr !== null) {
+						if (workout.timePr !== null) {
 							toast.success('Well done! New PR');
 							timePrState = timePrAttempt;
 						}
@@ -138,9 +141,9 @@
 				bind:value={timePrAttempt}
 			/>
 
-			<input type="hidden" name={'id'} value={id} />
+			<input type="hidden" name={'id'} value={workout.id} />
 
-			{#if repsPr !== null || timePr !== null}
+			{#if workout.repsPr !== null || workout.timePr !== null}
 				<Button type={'submit'} class="w-full" disabled={creating}
 					>{#if creating}
 						<Icon
@@ -157,24 +160,16 @@
 
 			<!-- <Button variant={'outline'} class="w-full mt-3">Add Note</Button> -->
 			<div class="flex items-center justify-center mt-4 gap-2">
-				<IconBorder
-					icon="material-symbols-light:add-notes-outline-rounded"
-					height={24}
-					toolTip="Add Note"
-				/>
-				<IconBorder
-					icon="pixelarticons:notes-multiple"
-					height={18}
-					toolTip="View notes"
-					className="py-2 px-1.5"
-				/>
+				<CreateNotes id={workout.id} />
 
-				<IconBorder icon="clarity:help-info-line" height={22} toolTip="Info" className="py-1.5" />
+				<Notes notes={workout.notes ?? []} />
 
-				<IconBorder icon="mdi-light:share" height={26} toolTip="Share workout" />
+				<!-- <IconBorder icon="clarity:help-info-line" height={22} toolTip="Info" className="py-1.5" /> -->
 
-				<EditWorkout {workout} {form} />
-				<DeleteWorkout {id} />
+				<!-- <IconBorder icon="mdi-light:share" height={26} toolTip="Share workout" /> -->
+
+				<EditWorkout {workout} />
+				<DeleteWorkout id={workout.id} />
 			</div>
 		</form>
 	</Card.Footer>

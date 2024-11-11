@@ -3,13 +3,13 @@
 	import * as Card from '$lib/components/ui/card';
 	import WorkoutForm from '$lib/components/WorkoutForm.svelte';
 	import { workoutsState } from '$lib/state/workoutsState.svelte';
-	import { workouts } from '$lib/workoutData';
-	let { data, form } = $props();
+	import { workouts as workoutsData, type Workout } from '$lib/workoutData';
 
-	workoutsState.filteredWorkouts = workouts;
+	workoutsState.filteredWorkouts = workoutsData;
+	let workouts: Workout[] = workoutsData;
 </script>
 
-<SearchForm {workouts}/>
+<SearchForm {workouts} />
 
 <div class="m-3">
 	<div class="flex flex-wrap justify-center">
@@ -28,7 +28,7 @@
 				</Card.Content>
 				<!-- could use flex-1 or grow -->
 				<Card.Footer class="grow">
-					<WorkoutForm {workout} {data} {form} />
+					<WorkoutForm {workout} />
 				</Card.Footer>
 			</Card.Root>
 		{/each}

@@ -12,13 +12,24 @@
 	import { toast } from 'svelte-sonner';
 	import { set } from 'zod';
 	import Icon from '@iconify/svelte';
+	import type { Notes, WorkoutWithNotes } from '$lib/types';
 
 	type Props = {
-		workout: Workout;
-		form: ActionData;
+		workout: {
+			id?: string;
+			title: string;
+			description?: string;
+			exercises?: string[];
+			repsPr?: number;
+			timePr?: string;
+			minutes?: number;
+			seconds?: number;
+			notes?: Notes[];
+		}
+		
 	};
 
-	let { workout, form }: Props = $props();
+	let { workout }: Props = $props();
 	let { id, title, description, exercises, repsPr, timePr, minutes, seconds } = workout;
 
 	let exercisesStr = exercises?.join('\n');
@@ -46,7 +57,7 @@
 	<Dialog.Trigger>
 		<IconBorder icon="la:edit" height={24} toolTip="Edit workout" />
 	</Dialog.Trigger>
-	<Dialog.Content class="sm:max-w-[425px]">
+	<Dialog.Content class="max-w-[425px]">
 		<Dialog.Header>
 			<Dialog.Title>{title}</Dialog.Title>
 			<Dialog.Description>
@@ -87,7 +98,7 @@
 			</div>
 			<Dialog.Footer>
 				<div>
-					<Button type="submit">Save changes</Button>
+					<Button type="submit" class="w-full">Save changes</Button>
 				</div>
 			</Dialog.Footer>
 		</form>

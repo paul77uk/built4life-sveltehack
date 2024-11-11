@@ -1,27 +1,20 @@
 <script lang="ts">
-	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { Button } from '$lib/components/ui/button/index.js';
 
 	import { toast } from 'svelte-sonner';
 	import Icon from '@iconify/svelte';
 	import type { Workout } from '$lib/workoutData';
 	import { enhance } from '$app/forms';
-	import { page } from '$app/stores';
 
 	import type { ActionData } from '../../routes/$types';
 
 	let {
-		data,
-		form,
 		workout
 	}: {
-		data: any;
-		form: ActionData;
 		workout: Workout;
 	} = $props();
 	let creating = $state(false);
-	let deleting = $state([]);
+	// let deleting = $state([]);
 
 	// const { form, enhance, delayed, formId } = superForm(workout, {
 	// 	id: workout.title,
