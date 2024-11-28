@@ -31,6 +31,8 @@
 		"eslint": "^9.7.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
+		"flowbite": "^2.5.2",
+		"flowbite-svelte": "^0.47.3",
 		"formsnap": "^2.0.0-next.0",
 		"globals": "^15.0.0",
 		"mode-watcher": "^0.4.1",
@@ -59,6 +61,7 @@
 		"@sveltejs/adapter-vercel": "^5.4.6",
 		"@tanstack/svelte-query": "^5.59.16",
 		"drizzle-orm": "^0.33.0",
+		"lucide-svelte": "^0.461.0",
 		"sveltekit-flash-message": "^2.4.4"
 	}
 }

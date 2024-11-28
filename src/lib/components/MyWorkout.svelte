@@ -9,12 +9,9 @@
 	import { toast } from 'svelte-sonner';
 	import type { Workout } from '$lib/workoutData';
 	import DeleteWorkout from './DeleteWorkout.svelte';
-	import IconBorder from './IconBorder.svelte';
 	import EditWorkout from './EditWorkout.svelte';
-	import type { ActionData } from '../../routes/my-workouts/$types';
 	import CreateNotes from './CreateNote.svelte';
 	import Notes from './Notes.svelte';
-	import type { Notes as NotesData } from '$lib/types';
 
 	type Props = {
 		workout: Workout;

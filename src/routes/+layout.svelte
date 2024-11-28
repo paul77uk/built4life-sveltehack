@@ -4,6 +4,7 @@
 	import { Toaster } from '$lib/components/ui/sonner';
 	import SubNav from '$lib/components/SubNav.svelte';
 
+
 	let { children, data } = $props();
 	let isAuthenticated = data.isAuthenticated;
 	// let { session, supabase } = $derived(data);
@@ -27,7 +28,11 @@
 	// });
 </script>
 
-<Toaster />
-<NavBar {isAuthenticated} />
-<SubNav />
-{@render children()}
+
+	<main>
+		<Toaster />
+		<NavBar {isAuthenticated} />
+		<SubNav />
+		{@render children()}
+	</main>
+

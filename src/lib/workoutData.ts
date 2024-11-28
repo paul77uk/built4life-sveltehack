@@ -412,5 +412,30 @@ export const workouts: Workout[] = [
 		description: 'AMRAP in 1 set',
 		exercises: ['Curls (65lb/ 30kg)'],
 		repsPr: 0
-	}
+	},
+	// index 51
+	{
+		title: 'BTM Squat D1',
+		description: 'Squats',
+		exercises: ['5 squats (14kg)', '5 squats (28kg)', '5x5 squats (44kg)']
+	},
+	// index 52
+	{
+		title: 'BTM C&P D1',
+		description: 'Clean & Press',
+		exercises: [
+			'5 Clean & Press (17kg)',
+			'5 Clean & Press (28kg)',
+			'5 Clean & Press (44kg)',
+			'AMRAP Clean & Press (17kg)'
+		],
+		repsPr: 20
+	},
+	// index 53
+	{
+		title: 'BTM SuperSet D1',
+		description: 'Inverted rows & Dips for 10 sets',
+		exercises: ['10 Inverted rows', '10 Dips'],
+		repsPr: 20
+	},
 ];

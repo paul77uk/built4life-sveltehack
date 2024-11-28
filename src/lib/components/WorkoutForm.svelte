@@ -6,8 +6,6 @@
 	import type { Workout } from '$lib/workoutData';
 	import { enhance } from '$app/forms';
 
-	import type { ActionData } from '../../routes/$types';
-
 	let {
 		workout
 	}: {
@@ -50,7 +48,7 @@
 
 			creating = false;
 
-			if (result.type === 'failure') toast.error(`${workout.title} already exists`);
+			if (result.type === 'failure') toast.error(result.data?.message as string);
 		};
 	}}
 >
