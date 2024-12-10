@@ -1,11 +1,7 @@
 <script lang="ts">
-	import { programs } from '$lib/programData';
-	import * as Sidebar from '$lib/components/ui/sidebar';
-	import AppSidebar from '$lib/components/AppSidebar.svelte';
 	import * as Tabs from '$lib/components/ui/tabs/index';
 	import { useProgramState } from '$lib/state/program-state.svelte';
-	import { Separator } from '$lib/components/ui/separator';
-	import MyWorkout from '$lib/components/MyWorkout.svelte';
+	import * as Card from '$lib/components/ui/card';
 
 	let programState = useProgramState();
 </script>
@@ -33,9 +29,21 @@
 			</Tabs.List>
 
 			<Tabs.Content value={programState.day?.title!!}>
-				{programState.day?.workouts?.[0].title}
 				{#each programState.day?.workouts!! as workout (workout.title)}
-					<MyWorkout {workout} />
+					<Card.Root class="m-3 flex w-[300px] flex-col px-5">
+						<Card.Header>
+							<Card.Title class="mx-auto text-center">{workout.title}</Card.Title>
+							<Card.Description class="mx-auto text-center">{workout.description}</Card.Description>
+						</Card.Header>
+						<Card.Content class="mx-auto">
+							{#if workout.exercises}
+								{#each workout.exercises as exercise}
+									<p>{exercise}</p>
+								{/each}
+							{/if}
+						</Card.Content>
+						<!-- could use flex-1 or grow -->
+					</Card.Root>
 				{/each}
 			</Tabs.Content>
 		</Tabs.Root>
