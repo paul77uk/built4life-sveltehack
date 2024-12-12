@@ -111,10 +111,10 @@ export const daysToWorkouts = pgTable(
 	{
 		dayId: uuid('day_id')
 			.notNull()
-			.references(() => day.id),
+			.references(() => day.id, { onDelete: 'cascade' }),
 		workoutId: uuid('workout_id')
 			.notNull()
-			.references(() => workout.id),
+			.references(() => workout.id, { onDelete: 'cascade' }),
 		createdAt: timestamp('created_at', {
 			withTimezone: true,
 			mode: 'date'

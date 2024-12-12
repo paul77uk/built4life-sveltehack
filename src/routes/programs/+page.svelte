@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Tabs from '$lib/components/ui/tabs/index';
-	import { useProgramState } from '$lib/state/program-state.svelte';
 	import * as Card from '$lib/components/ui/card';
+	import { useProgramState } from '$lib/state/program-state.svelte';
 
 	let programState = useProgramState();
 </script>

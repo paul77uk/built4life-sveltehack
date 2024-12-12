@@ -2,7 +2,7 @@
 	import { workoutsState } from '$lib/state/workoutsState.svelte';
 	import Icon from '@iconify/svelte';
 	import { Input } from './ui/input';
-	import { type Workout } from '$lib/workoutData';
+	import { type Workout } from '../workoutData';
 
 	// let initialQuery = $page.url.searchParams.get('query') || ''
 

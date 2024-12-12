@@ -3,7 +3,7 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
-	import type { Workout } from '$lib/workoutData';
+	import type { Workout } from '../workoutData';
 	import type { ActionData } from '../../routes/my-workouts/$types';
 
 	import Textarea from './ui/textarea/textarea.svelte';

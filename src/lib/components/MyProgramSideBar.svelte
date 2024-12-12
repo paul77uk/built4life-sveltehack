@@ -1,25 +1,25 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar/index';
-	import { programs } from '$lib/programData';
-	import { useProgramState } from '$lib/state/program-state.svelte';
 	import { useSidebar } from '$lib/components/ui/sidebar';
+	import { useMyProgramState } from '$lib/state/my-program-state.svelte';
 
-	let programState = useProgramState();
+	let myProgramState = useMyProgramState();
 	let sidebar = useSidebar();
+	let { programs } = $props();
 </script>
 
 <Sidebar.Root>
 	<Sidebar.Content>
 		<Sidebar.Menu>
-			{#each programs as program (program.title)}
+			{#each programs as program (program.id)}
 				<Sidebar.MenuItem>
 					<Sidebar.MenuButton
 						onclick={() => {
-							programState.program = program;
+							myProgramState.program = program;
 							sidebar.setOpenMobile(false);
 						}}
 					>
-						{#if programState.program.title === program.title}
+						{#if myProgramState.program?.title === program.title}
 							<div>
 								<div class="font-bold">{program.title}</div>
 							</div>

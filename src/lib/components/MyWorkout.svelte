@@ -7,7 +7,7 @@
 	import { Input } from './ui/input';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svelte-sonner';
-	import type { Workout } from '$lib/workoutData';
+	import type { Workout } from '../workoutData';
 	import DeleteWorkout from './DeleteWorkout.svelte';
 	import EditWorkout from './EditWorkout.svelte';
 	import CreateNotes from './CreateNote.svelte';

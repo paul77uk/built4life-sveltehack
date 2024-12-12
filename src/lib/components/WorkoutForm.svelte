@@ -3,7 +3,7 @@
 
 	import { toast } from 'svelte-sonner';
 	import Icon from '@iconify/svelte';
-	import type { Workout } from '$lib/workoutData';
+	import type { Workout } from '../workoutData';
 	import { enhance } from '$app/forms';
 
 	let {

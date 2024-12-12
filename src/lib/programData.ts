@@ -1,4 +1,5 @@
-import { workouts } from './workoutData';
+import { workouts } from "./workoutData";
+
 
 export const programs = [
 	{

@@ -3,7 +3,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import WorkoutForm from '$lib/components/WorkoutForm.svelte';
 	import { workoutsState } from '$lib/state/workoutsState.svelte';
-	import { workouts as workoutsData, type Workout } from '$lib/workoutData';
+	import { workouts as workoutsData, type Workout } from '../lib/workoutData';
 
 	workoutsState.filteredWorkouts = workoutsData;
 	let workouts: Workout[] = workoutsData;
