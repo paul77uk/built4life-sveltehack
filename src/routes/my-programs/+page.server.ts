@@ -1,7 +1,7 @@
 import { day, daysToWorkouts, program, week, workout } from '$lib/server/db/schema';
 import { db } from '$lib/server/db';
 import { kindeAuthClient, type SessionManager } from '@kinde-oss/kinde-auth-sveltekit';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 export const load = async ({ request }) => {
 	const isAuthenticated = await kindeAuthClient.isAuthenticated(
@@ -89,5 +89,17 @@ export const actions = {
 		//TODO: display error that workout with that name already exists
 
 		// }
+	},
+	deleteDayWorkout: async ({ request }) => {
+		const data = await request.formData();
+
+		await db
+			.delete(daysToWorkouts)
+			.where(
+				and(
+					eq(daysToWorkouts.dayId, data.get('dayId') as string),
+					eq(daysToWorkouts.workoutId, data.get('workoutId') as string)
+				)
+			);
 	}
 };

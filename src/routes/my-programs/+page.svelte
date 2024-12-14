@@ -1,9 +1,8 @@
 <script>
 	import * as Tabs from '$lib/components/ui/tabs/index';
-	import * as Card from '$lib/components/ui/card/index';
-	import { Button } from '$lib/components/ui/button';
 	import { useMyProgramState } from '$lib/state/my-program-state.svelte';
 	import CreateMyProgramWorkout from '$lib/components/CreateMyProgramWorkout.svelte';
+	import MyProgramDaysWorkout from '$lib/components/MyProgramDaysWorkout.svelte';
 
 	let programState = useMyProgramState();
 	let { data } = $props();
@@ -35,7 +34,8 @@
 						<Tabs.Content value={day.title} class="text-center">
 							<CreateMyProgramWorkout dayId={day.id} {workouts} />
 							{#each day.daysToWorkouts as dayToWorkout}
-								<Card.Root class="my-5">
+							<MyProgramDaysWorkout {dayToWorkout} />
+								<!-- <Card.Root class="my-5">
 									<Card.Header>
 										<Card.Title class="text-center mb-2">{dayToWorkout.workout.title}</Card.Title>
 									</Card.Header>
@@ -49,7 +49,7 @@
 											{/each}
 										{/if}
 									</Card.Content>
-								</Card.Root>
+								</Card.Root> -->
 							{/each}
 						</Tabs.Content>
 					{/each}

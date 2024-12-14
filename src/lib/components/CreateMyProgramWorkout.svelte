@@ -1,36 +1,36 @@
 <script lang="ts">
-	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
-	import * as Dialog from '$lib/components/ui/dialog/index.js';
-	import { Input } from '$lib/components/ui/input/index.js';
-	import { Label } from '$lib/components/ui/label/index.js';
+	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
+	import { useMyProgramState } from '$lib/state/my-program-state.svelte';
 
 	let { dayId, workouts } = $props();
 	let workoutId = $state('');
+	let program = useMyProgramState();
 </script>
 
 <div class="flex items-center gap-2">
-  <Select.Root type="single">
-    <Select.Trigger class="w-[180px]">Workouts</Select.Trigger>
-    <Select.Content>
-      <Select.Group>
-        {#each workouts as workout}
-          <Select.Item
-            value={workout.title}
-            label={workout.title}
-            onclick={() => {
-              workoutId = workout.id;
-            }}
-          />
-        {/each}
-      </Select.Group>
-    </Select.Content>
-  </Select.Root>
-  <form method="POST" action="?/insertWorkout">
-    <input type="hidden" name="dayId" value={dayId} />
-    <input type="hidden" name="workoutId" value={workoutId} />
-    <Button  type="submit" >Save</Button>
-  </form>
+	<Select.Root type="single">
+		<Select.Trigger class="w-[180px]">Workouts</Select.Trigger>
+		<Select.Content>
+			<Select.Group>
+				{#each workouts as workout}
+					<Select.Item
+						value={workout.title}
+						label={workout.title}
+						onclick={() => {
+							workoutId = workout.id;
+						}}
+					/>
+				{/each}
+			</Select.Group>
+		</Select.Content>
+	</Select.Root>
+	<form method="POST" action="?/insertWorkout">
+		<input type="hidden" name="dayId" value={dayId} />
+		<input type="hidden" name="workoutId" value={workoutId} />
+		<input type="hidden" name="programId" value={program.program?.id} />
+		<Button type="submit">Save</Button>
+	</form>
 </div>
 
 <!-- <Dialog.Root>
