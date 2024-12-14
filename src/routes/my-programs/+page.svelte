@@ -1,36 +1,17 @@
 <script>
 	import * as Tabs from '$lib/components/ui/tabs/index';
 	import * as Card from '$lib/components/ui/card/index';
+	import { Button } from '$lib/components/ui/button';
 	import { useMyProgramState } from '$lib/state/my-program-state.svelte';
+	import CreateMyProgramWorkout from '$lib/components/CreateMyProgramWorkout.svelte';
 
 	let programState = useMyProgramState();
+	let { data } = $props();
+	let workouts = data.workouts;
 </script>
 
-<!-- <main>
-	<h1>My Programs</h1>
-	<ul>
-		<li>{programState?.program?.title}</li>
-		{#if programState && programState.program}
-			{#each programState.program.weeks as week}
-				<li>{week.title}</li>
-				{#each week.days as day}
-					<li>{day.title}</li>
-					{#each day.daysToWorkouts as dayToWorkout}
-						<div>{dayToWorkout.workout.title}</div>
-						{#if dayToWorkout.workout.exercises}
-							{#each dayToWorkout.workout.exercises as exercise}
-								<p>{exercise}</p>
-							{/each}
-						{/if}
-					{/each}
-				{/each}
-			{/each}
-		{/if}
-	</ul>
-</main> -->
-
-<Tabs.Root value={programState.program?.weeks[0].title} class="w-[400px] mx-auto mt-3">
-	<Tabs.List class="grid w-full grid-cols-2 my-3">
+<Tabs.Root value={programState.program?.weeks[0].title} class="w-fit mx-auto mt-3">
+	<Tabs.List class="flex my-3">
 		{#if programState.program}
 			{#each programState.program.weeks as week (week.title)}
 				<Tabs.Trigger value={week.title}>
@@ -42,8 +23,8 @@
 	{#if programState.program}
 		{#each programState.program.weeks as week (week.title)}
 			<Tabs.Content value={week.title}>
-				<Tabs.Root value={week.days[0].title} class="w-[400px]">
-					<Tabs.List class="grid w-full grid-cols-2 my-3">
+				<Tabs.Root value={week.days[0].title} class="w-fit">
+					<Tabs.List class="flex my-3">
 						{#each week.days as day (day.title)}
 							<Tabs.Trigger value={day.title}>
 								{day.title}
@@ -51,7 +32,8 @@
 						{/each}
 					</Tabs.List>
 					{#each week.days as day (day.title)}
-						<Tabs.Content value={day.title}>
+						<Tabs.Content value={day.title} class="text-center">
+							<CreateMyProgramWorkout dayId={day.id} {workouts} />
 							{#each day.daysToWorkouts as dayToWorkout}
 								<Card.Root class="my-5">
 									<Card.Header>
